@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News App</title>
+    <style>
+      input{
+        width: 80%;
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Give Navbar with id "navbar"  -->
+    <h1><a href="news.html">NewsApp</a></h1>
+    <div id="navbar">
+
+      <select name="countries" id="sidebar" onclick="getdata()">
+        <option value="in">india</option>
+        <option value="ch">china</option>
+        <option value="us">usa</option>
+        <option value="uk">uk</option>
+        <option value="nz">Newzeland</option>
+      </select>
+
+      <input type="text" id="search_input" placeholder="Search">
+    </div>
+    <div id="results"></div>
+    <!-- Navbar will have input with id search_input and a link to home page i.e. index.html -->
+    <!-- Sidebar will have id "sidebar"  -->
+    
+    <!-- Give link to top headlines of countries in sidebar with id as their country codes 
+    india :- in
+    china :- ch
+    usa :- us
+    uk : uk
+    Newzeland :- nz -->
+      
+
+    <!-- Append results inside div with id "results"  -->
+    <!-- News divs will have class "news"  -->
+  </body>
+</html>
+<script>
+function getdata(){
+  let country=document.getElementById("sidebar").value;
+  const url=`https://masai-mock-api.herokuapp.com/news/top-headlines?country=${country}`
+  fetch(url)
+  .then(function (res){
+    return res.json()
+  })
+  .then(function (res){
+    console.log(res.articles)
+    append(res.results)
+  })
+  .catch(function (err){
+    console.log("err",err)
+  })
+}
+function append(data){
+  
+  
+  data.forEach(function (el){
+    // let results=document.getElementById("results")
+    let div=document.createElement('div')
+    // div.getAttribute("class",'news')
+    let image=document.createElement("img")
+    image.src=el.urlToImage;
+    let p=document.createElement("p");
+    p.innerText=el.context
+
+    div.append(img,p)
+    document.getElementById("results").append(div)
+    
+  })
+    
+}
+  
+</script>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detailed news</title>
+  </head>
+  <body>
+    <h1><a href="news.html">NewsApp</a></h1>
+    <div id="navbar">
+
+      <select name="countries" id="sidebar" >
+        <option value="in">india</option>
+        <option value="ch">china</option>
+        <option value="us">usa</option>
+        <option value="uk">uk</option>
+        <option value="nz">Newzeland</option>
+      </select>
+
+      <input type="text" id="search_input" oninput=" getdata()" placeholder="Search">
+    </div>
+    <div id="detailed_news"></div>
+    <!-- Same navbar with same functionality  -->
+    <!-- Append detailed news in div with id "detailed_news"  -->
+  </body>
+</html>
+<script>
+function getdata(){
+let query=document.getElementById("search_input").value;
+  const url=`https://masai-mock-api.herokuapp.com/news?q=${query}`
+  fetch(url)
+  .then(function (res){
+    return res.json()
+  })
+  .then(function (res){
+    console.log(res.articles)
+    append(res.results)
+  })
+  .catch(function (err){
+    console.log("err",err)
+  })
+
+function append(data){
+  
+  
+  data.forEach(function (el){
+    // let results=document.getElementById("results")
+    let div=document.createElement('div')
+    // div.getAttribute("class",'news')
+    
+    let p=document.createElement("p");
+    p.innerText=el.title
+
+    div.append(p)
+    document.getElementById("detailed_news").append(div)
+    
+  })
+    
+}
+}
+</script>
